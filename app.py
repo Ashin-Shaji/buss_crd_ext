@@ -274,7 +274,7 @@ if st.button("Process Selected Images") and selected_images:
 # Display the DataFrame if the checkbox is checked
 if display_csv and csv_exists:
     df = pd.read_csv(csv_filename)
-    st.markdown('##### Verify Data')
+    st.markdown('##### Verify Data📝')
     edited_df = st.data_editor(df, num_rows="dynamic", key="editor_displayed")
 
     # Save the edited DataFrame back to the CSV file
