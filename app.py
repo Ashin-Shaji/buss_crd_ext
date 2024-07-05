@@ -13,7 +13,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
 
 # Streamlit UI
 # st.title('Business Card Extractor')
-st.markdown("<h1 style='text-align: center; color: white;'>Business Card Extractor</h1>", unsafe_allow_html=True)
+st.markdown("Business Card Extractor")
 st.markdown("""<style>.stButton > button {display: block;margin: 0 auto;}</style>""", unsafe_allow_html=True)
 
 # Check if the CSV file exists
