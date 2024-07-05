@@ -12,8 +12,7 @@ os.makedirs(IMAGE_FOLDER, exist_ok=True)
 llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
 
 # Streamlit UI
-# st.title('Business Card Extractor')
-st.markdown(f"<h2 style='color:indigo; text-align: center;'>{'SQLite Database Explorer and Data Entry'}</h2>",unsafe_allow_html = True)
+st.markdown(f"<h2 style='color:blue; text-align: center;'>{'Business Card Extractor'}</h2>",unsafe_allow_html = True)
 st.markdown("""<style>.stButton > button {display: block;margin: 0 auto;}</style>""", unsafe_allow_html=True)
 
 # Check if the CSV file exists
