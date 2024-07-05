@@ -29,7 +29,7 @@ if uploaded_files:
     for uploaded_file in uploaded_files:
         with open(os.path.join(IMAGE_FOLDER, uploaded_file.name), "wb") as f:
             f.write(uploaded_file.getbuffer())
-    st.success("Images uploaded successfully!")
+    st.success("Images uploaded successfully!", icon="✅")
 
     # Display uploaded images in a grid
     image_paths = [os.path.join(IMAGE_FOLDER, uploaded_file.name) for uploaded_file in uploaded_files]
@@ -83,12 +83,12 @@ st.markdown(
 if st.button("Clean All Images"):
     for f in existing_images:
         os.remove(os.path.join(IMAGE_FOLDER, f))
-    st.info("All images cleaned successfully!")
+    st.info("All images cleaned", icon="❗")
 
 if st.button("Clean Selected Images"):
     for f in selected_images:
         os.remove(os.path.join(IMAGE_FOLDER, f))
-    st.info("Selected images cleaned successfully!")
+    st.info("Selected image(s) cleaned", icon="❗")
 
 # Process selected images
 if st.button("Process Selected Images") and selected_images:
