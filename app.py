@@ -258,7 +258,7 @@ try:
             try:
                 for f in existing_images:
                     os.remove(os.path.join(IMAGE_FOLDER, f))
-                st.success("All images cleaned successfully!")
+                st.info("All images cleaned", icon="❗")
             except Exception as e:
                 st.error("Failed to clean all images.")
                 st.exception(e)
@@ -270,7 +270,7 @@ try:
             try:
                 for f in selected_images:
                     os.remove(os.path.join(IMAGE_FOLDER, f))
-                st.success("Selected images cleaned successfully!")
+                st.info("Selected images cleaned!", icon="❗")
             except Exception as e:
                 st.error("Failed to clean selected images.")
                 st.exception(e)
@@ -335,7 +335,7 @@ try:
 
                     # Save the DataFrame back to the CSV file
                     df.to_csv(csv_filename, index=False)
-                    st.success(f"CSV file '{csv_filename}' updated successfully!")
+                    st.info(f"CSV file '{csv_filename}' updated", icon="✅")
                 except Exception as e:
                     st.error("Failed to update CSV file.")
                     st.exception(e)
@@ -360,7 +360,7 @@ try:
     # Display the DataFrame if the checkbox is checked
     if display_csv and csv_exists:
         df = pd.read_csv(csv_filename)
-        st.markdown('##### Verify Data')
+        st.markdown('##### Verify Data 📝')
         edited_df = st.data_editor(df, num_rows="dynamic", key="editor_displayed")
 
         # Save the edited DataFrame back to the CSV file
