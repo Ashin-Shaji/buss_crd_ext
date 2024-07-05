@@ -176,7 +176,7 @@ try:
             for uploaded_file in uploaded_files:
                 with open(os.path.join(IMAGE_FOLDER, uploaded_file.name), "wb") as f:
                     f.write(uploaded_file.getbuffer())
-            st.success("Images uploaded successfully!", icon="✅")
+            st.success("Image(s) uploaded successfully!", icon="✅")
 
             # Display uploaded images in a grid
             image_paths = [os.path.join(IMAGE_FOLDER, uploaded_file.name) for uploaded_file in uploaded_files]
