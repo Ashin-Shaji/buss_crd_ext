@@ -137,7 +137,7 @@ if st.button("Process Selected Images") and selected_images:
 
     # Save the DataFrame back to the CSV file
     df.to_csv(csv_filename, index=False)
-    st.info(f"CSV file '{csv_filename}' updated successfully!")
+    st.info(f"CSV file '{csv_filename}' updated successfully!", icon="✅")
 
 # Display the JSON data if the checkbox is checked
 if display_json:
