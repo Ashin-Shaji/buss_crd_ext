@@ -79,12 +79,12 @@ st.markdown("""<style>.stButton > button {display: block;margin: 0 auto;}</style
 # if st.button("Clean All Images"):
 #     for f in existing_images:
 #         os.remove(os.path.join(IMAGE_FOLDER, f))
-#     st.info("All images cleaned successfully!")
+#     st.success("All images cleaned successfully!")
 
 # if st.button("Clean Selected Images"):
 #     for f in selected_images:
 #         os.remove(os.path.join(IMAGE_FOLDER, f))
-#     st.info("Selected image(s) cleaned successfully!")
+#     st.success("Selected images cleaned successfully!")
 
 # # Process selected images
 # if st.button("Process Selected Images") and selected_images:
@@ -120,6 +120,11 @@ st.markdown("""<style>.stButton > button {display: block;margin: 0 auto;}</style
 #             rows.append(row)
 #         all_rows.extend(rows)
 
+#         # Show extracted data in JSON format if the switch is on
+#         if display_json:
+#             with st.expander(f"Show JSON - {image_file}"):
+#                 st.json(extracted_data)
+
 #     df = pd.DataFrame(all_rows, columns=columns)
 
 #     # Load existing CSV if it exists and append new data
@@ -131,15 +136,10 @@ st.markdown("""<style>.stButton > button {display: block;margin: 0 auto;}</style
 #     df.to_csv(csv_filename, index=False)
 #     st.success(f"CSV file '{csv_filename}' updated successfully!")
 
-#     # Show extracted data in JSON format if the switch is on
-#     if display_json:
-#       with st.expander(f"Show JSON - {image_file}"):
-#         st.json(extracted_data)
-
 # # Display the DataFrame if the checkbox is checked
 # if display_csv and csv_exists:
 #     df = pd.read_csv(csv_filename)
-#     st.markdown('##### Verify Data')
+#     st.markdown('##### Verify Data📝')
 #     edited_df = st.data_editor(df, num_rows="dynamic", key="editor_displayed")
 
 #     # Save the edited DataFrame back to the CSV file
@@ -153,6 +153,10 @@ st.markdown("""<style>.stButton > button {display: block;margin: 0 auto;}</style
 # Check if the CSV file exists
 csv_filename = "business_cards.csv"
 csv_exists = os.path.exists(csv_filename)
+
+# Initialize session state for storing JSON data
+if 'json_data' not in st.session_state:
+    st.session_state.json_data = {}
 
 # 1. Option to upload images
 uploaded_files = st.file_uploader("Upload Images", accept_multiple_files=True, type=["jpg", "jpeg", "png"])
@@ -186,7 +190,7 @@ if selected_images:
             with cols[i % num_cols]:
                 image = Image.open(image_path)
                 st.image(image, caption=os.path.basename(image_path))
-                
+
 # Create columns for placing checkboxes
 col1, col2 = st.columns([1, 4])
 
@@ -224,6 +228,7 @@ if st.button("Clean Selected Images"):
 # Process selected images
 if st.button("Process Selected Images") and selected_images:
     all_rows = []
+    st.session_state.json_data = {}  # Reset session state for new processing
 
     for image_file in selected_images:
         image_path = os.path.join(IMAGE_FOLDER, image_file)
@@ -255,10 +260,8 @@ if st.button("Process Selected Images") and selected_images:
             rows.append(row)
         all_rows.extend(rows)
 
-        # Show extracted data in JSON format if the switch is on
-        if display_json:
-            with st.expander(f"Show JSON - {image_file}"):
-                st.json(extracted_data)
+        # Store the extracted JSON data in session state
+        st.session_state.json_data[image_file] = extracted_data
 
     df = pd.DataFrame(all_rows, columns=columns)
 
@@ -271,10 +274,16 @@ if st.button("Process Selected Images") and selected_images:
     df.to_csv(csv_filename, index=False)
     st.success(f"CSV file '{csv_filename}' updated successfully!")
 
+# Display the JSON data if the checkbox is checked
+if display_json:
+    for image_file, extracted_data in st.session_state.json_data.items():
+        with st.expander(f"Show JSON - {image_file}"):
+            st.json(extracted_data)
+
 # Display the DataFrame if the checkbox is checked
 if display_csv and csv_exists:
     df = pd.read_csv(csv_filename)
-    st.markdown('##### Verify Data📝')
+    st.markdown('##### Verify Data')
     edited_df = st.data_editor(df, num_rows="dynamic", key="editor_displayed")
 
     # Save the edited DataFrame back to the CSV file
