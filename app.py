@@ -79,12 +79,12 @@ st.markdown(
 if st.button("Clean All Images"):
     for f in existing_images:
         os.remove(os.path.join(IMAGE_FOLDER, f))
-    st.success("All images cleaned successfully!")
+    st.info("All images cleaned successfully!")
 
 if st.button("Clean Selected Images"):
     for f in selected_images:
         os.remove(os.path.join(IMAGE_FOLDER, f))
-    st.success("Selected images cleaned successfully!")
+    st.info("Selected image(s) cleaned successfully!")
 
 # Process selected images
 if st.button("Process Selected Images") and selected_images:
