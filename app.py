@@ -3,13 +3,16 @@ import os, pandas as pd, google.generativeai as gem, csv, ast, streamlit as st
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyBbepUh8x3CqpkxNFnJ1IX0dFc0UNTwwbU'
+# os.environ["GOOGLE_API_KEY"] = 'AIzaSyBbepUh8x3CqpkxNFnJ1IX0dFc0UNTwwbU'
 # Configuration
 IMAGE_FOLDER = "uploaded_images"
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
 # Initialize Google Generative AI
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest")
+# llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest")
+
+gem.configure(api_key='AIzaSyBbepUh8x3CqpkxNFnJ1IX0dFc0UNTwwbU')
+llm = gem.GenerativeModel('gemini-1.5-flash-latest')
 
 # Streamlit UI
 st.markdown(f"<h2 style='color:blue; text-align: center;'>{'Business Card Extractor'}</h2>",unsafe_allow_html = True)
@@ -146,25 +149,35 @@ try:
                 for image_file in selected_images:
                     image_path = os.path.join(IMAGE_FOLDER, image_file)
 
-                    message = HumanMessage(
-                        content=[
-                            {
-                                "type": "text",
-                                "text": """Carefully analyze the business card(s) and get the output in pure json format
+                    # message = HumanMessage(
+                    #     content=[
+                    #         {
+                    #             "type": "text",
+                    #             "text": """Carefully analyze the business card(s) and get the output in pure json format
+
+                    #             [{"Person name": "full name of the person if exists",
+                    #                 "Company name": "get the full company name if exists",
+                    #                 "Email": "get the complete mail if exists",
+                    #                 "Contact number": "get every contact numbers if exists"}]
+                    #                 your response shall not contain ' ```json ' and ' ``` ' """,
+                    #         },
+                    #         {"type": "image_url", "image_url": image_path}
+                    #     ]
+                    # )
+
+                    response = llm.generate_content(["""Carefully analyze the business card(s) and get the output in pure json format
 
                                 [{"Person name": "full name of the person if exists",
                                     "Company name": "get the full company name if exists",
                                     "Email": "get the complete mail if exists",
                                     "Contact number": "get every contact numbers if exists"}]
-                                    your response shall not contain ' ```json ' and ' ``` ' """,
-                            },
-                            {"type": "image_url", "image_url": image_path}
-                        ]
-                    )
+                                    your response shall not contain ' ```json ' and ' ``` ' """, image_path], stream=True)
 
                     try:
-                        response = llm.invoke([message])
-                        extracted_data = ast.literal_eval(response.content)
+                        # response = llm.invoke([message])
+                        # extracted_data = ast.literal_eval(response.content)
+                        # response = response.resolve()
+                        extracted_data = ast.literal_eval(response.resolve().text)
 
                         columns = ["Person name", "Company name", "Email", "Contact number"]
 
