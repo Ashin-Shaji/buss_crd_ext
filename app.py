@@ -164,7 +164,7 @@ try:
 
                     try:
                         response = llm.invoke([message])
-                        response = response.replace('null', 'null').replace('null', 'None')
+                        # response = response.replace('null', 'null').replace('null', 'None')
                         extracted_data = ast.literal_eval(response.content)
 
                         columns = ["Person name", "Company name", "Email", "Contact number"]
