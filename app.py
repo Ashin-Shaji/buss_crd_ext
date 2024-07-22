@@ -1,4 +1,5 @@
 from PIL import Image
+import PIL.Image
 import os, pandas as pd, google.generativeai as gem, csv, ast, streamlit as st
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
