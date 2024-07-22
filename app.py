@@ -10,7 +10,7 @@ IMAGE_FOLDER = "uploaded_images"
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
 # Initialize Google Generative AI
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest")
+llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
 
 # Streamlit UI
 st.markdown(f"<h2 style='color:blue; text-align: center;'>{'Business Card Extractor'}</h2>",unsafe_allow_html = True)
@@ -53,10 +53,10 @@ except Exception as e:
 try:
     # 2. Option to choose images from an existing folder
     existing_images = [f for f in os.listdir(IMAGE_FOLDER) if os.path.isfile(os.path.join(IMAGE_FOLDER, f))]
-    
+
     if not existing_images:
         st.caption("The folder is empty")
-    
+
     selected_images = st.multiselect("Select Images from Existing Folder", existing_images)
 
     # Display selected images in a grid
@@ -146,7 +146,7 @@ try:
             try:
                 for image_file in selected_images:
                     image_path = os.path.join(IMAGE_FOLDER, image_file)
-                    # image_path = PIL.Image.open(image_path)
+
                     message = HumanMessage(
                         content=[
                             {
@@ -163,19 +163,9 @@ try:
                         ]
                     )
 
-                    # response = llm.generate_content(["""Carefully analyze the business card(s) and get the output in pure json format
-
-                    #             [{"Person name": "full name of the person if exists",
-                    #                 "Company name": "get the full company name if exists",
-                    #                 "Email": "get the complete mail if exists",
-                    #                 "Contact number": "get every contact numbers if exists"}]
-                                    # your response shall not contain ' ```json ' and ' ``` ' """, image_path], stream=True)
-
                     try:
                         response = llm.invoke([message])
                         extracted_data = ast.literal_eval(response.content)
-                        # response.resolve()
-                        # extracted_data = ast.literal_eval(response.text)
 
                         columns = ["Person name", "Company name", "Email", "Contact number"]
 
