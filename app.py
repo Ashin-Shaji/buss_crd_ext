@@ -148,7 +148,7 @@ try:
             try:
                 for image_file in selected_images:
                     image_path = os.path.join(IMAGE_FOLDER, image_file)
-
+                    image_path = PIL.Image.open(image_path)
                     # message = HumanMessage(
                     #     content=[
                     #         {
@@ -176,8 +176,8 @@ try:
                     try:
                         # response = llm.invoke([message])
                         # extracted_data = ast.literal_eval(response.content)
-                        # response = response.resolve()
-                        extracted_data = ast.literal_eval(response.resolve().text)
+                        response = response.resolve()
+                        extracted_data = ast.literal_eval(response.text)
 
                         columns = ["Person name", "Company name", "Email", "Contact number"]
 
