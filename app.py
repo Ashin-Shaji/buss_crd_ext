@@ -9,7 +9,7 @@ IMAGE_FOLDER = "uploaded_images"
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
 # Initialize Google Generative AI
-llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest")
 
 # Streamlit UI
 st.markdown(f"<h2 style='color:blue; text-align: center;'>{'Business Card Extractor'}</h2>",unsafe_allow_html = True)
