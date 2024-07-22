@@ -3,7 +3,7 @@ import os, pandas as pd, google.generativeai as gem, csv, ast, streamlit as st
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyBbepUh8x3CqpkxNFnJ1IX0dFc0UNTwwbU'
+# os.environ["GOOGLE_API_KEY"] = 'AIzaSyBbepUh8x3CqpkxNFnJ1IX0dFc0UNTwwbU'
 # Configuration
 # IMAGE_FOLDER = "uploaded_images"
 # os.makedirs(IMAGE_FOLDER, exist_ok=True)
@@ -235,7 +235,7 @@ IMAGE_FOLDER = "uploaded_images"
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
 # Initialize Google Generative AI
-genai.configure(api_key='YOUR_API_KEY')
+gem.configure(api_key='AIzaSyBbepUh8x3CqpkxNFnJ1IX0dFc0UNTwwbU')
 
 # Streamlit UI
 st.markdown(f"<h2 style='color:blue; text-align: center;'>{'Business Card Extractor'}</h2>", unsafe_allow_html=True)
@@ -392,7 +392,7 @@ try:
 
                     try:
                         # Initialize model and send request
-                        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+                        model = gem.GenerativeModel('gemini-1.5-flash-latest')
                         response = model.generate_content(message, stream=True)
                         response.resolve()
                         extracted_data = ast.literal_eval(response.text)
