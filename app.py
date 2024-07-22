@@ -177,7 +177,7 @@ try:
                     try:
                         # response = llm.invoke([message])
                         # extracted_data = ast.literal_eval(response.content)
-                        response = response.resolve()
+                        response.resolve()
                         extracted_data = ast.literal_eval(response.text)
 
                         columns = ["Person name", "Company name", "Email", "Contact number"]
