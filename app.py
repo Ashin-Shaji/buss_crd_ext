@@ -150,10 +150,10 @@ try:
                     vision = gem.GenerativeModel('gemini-1.5-flash-latest')
                     res = vision.generate_content(["""You are only a business card image recognizer,you will tell clean 'YES' if it is it else clean 'NO' """,image])
                     if res.text=='NO':
-                        st.error(f"{os.path.basename(image_path)} is not a business card")
-                        break
-                    else:
-                        message = HumanMessage(
+                        st.info(f"{os.path.basename(image_path)} is not a business card", icon = '❗')
+                        continue                
+                        
+                    message = HumanMessage(
                         content=[
                             {
                                 "type": "text",
@@ -233,86 +233,5 @@ try:
 except Exception as e:
     st.error("An error occurred while displaying the CSV data.")
     st.exception(e)
-                        
-#                     message = HumanMessage(
-#                         content=[
-#                             {
-#                                 "type": "text",
-#                                 "text": """Carefully analyze the business card(s) and get the output in pure json format
-
-#                                 [{"Person name": "full name of the person if exists",
-#                                     "Company name": "get the full company name if exists",
-#                                     "Email": "get the complete mail if exists",
-#                                     "Contact number": "get every contact numbers if exists"}]
-#                                     your response shall not contain ' ```json ' and ' ``` ' """,
-#                             },
-#                             {"type": "image_url", "image_url": image_path}
-#                         ]
-#                     )
-
-#                     try:
-#                         response = llm.invoke([message])
-#                         response = response.content.replace('null', 'null').replace('null', 'None')
-#                         extracted_data = ast.literal_eval(response)
-
-#                         columns = ["Person name", "Company name", "Email", "Contact number"]
-
-#                         rows = []
-#                         for item in extracted_data:
-#                             row = {col: item.get(col, "") for col in columns}
-#                             rows.append(row)
-#                         all_rows.extend(rows)
-
-#                         # Store the extracted JSON data in session state
-#                         st.session_state.json_data[image_file] = extracted_data
-#                     except Exception as e:
-#                         st.error(f"Failed to process image: {image_file}")
-#                         st.exception(e)
-
-#                 try:
-#                     df = pd.DataFrame(all_rows, columns=columns)
-
-#                     # Load existing CSV if it exists and append new data
-#                     if csv_exists:
-#                         existing_df = pd.read_csv(csv_filename)
-#                         df = pd.concat([existing_df, df], ignore_index=True)
-
-#                     # Save the DataFrame back to the CSV file
-#                     df.to_csv(csv_filename, index=False)
-#                     st.info(f"CSV file '{csv_filename}' updated", icon="✅")
-#                 except Exception as e:
-#                     st.error("Failed to update CSV file.")
-#                     st.exception(e)
-#             except Exception as e:
-#                 st.error("An error occurred while processing the selected images.")
-#                 st.exception(e)
-# except Exception as e:
-#     st.error("An error occurred during the image processing step.")
-#     st.exception(e)
-
-# try:
-#     # Display the JSON data if the checkbox is checked
-#     if display_json:
-#         for image_file, extracted_data in st.session_state.json_data.items():
-#             with st.expander(f"Show JSON - {image_file}"):
-#                 st.json(extracted_data)
-# except Exception as e:
-#     st.error("An error occurred while displaying JSON data.")
-#     st.exception(e)
-
-# try:
-#     # Display the DataFrame if the checkbox is checked
-#     if display_csv and csv_exists:
-#         df = pd.read_csv(csv_filename)
-#         st.markdown('##### Verify Data 📝')
-#         edited_df = st.data_editor(df, num_rows="dynamic", key="editor_displayed")
-
-#         # Save the edited DataFrame back to the CSV file
-#         edited_df.to_csv(csv_filename, index=False)
-#         st.markdown('##### Final Data')
-#         st.write(edited_df)
-# except Exception as e:
-#     st.error("An error occurred while displaying the CSV data.")
-#     st.exception(e)
 
 st.stop()
