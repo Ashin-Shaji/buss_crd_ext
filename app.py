@@ -139,6 +139,7 @@ try:
         if not selected_images:
             st.error("Select image(s) to proceed")
         else:
+            columns = ["Person name", "Company name", "Email", "Contact number"]
             all_rows = []
             st.session_state.json_data = {}  # Reset session state for new processing
 
