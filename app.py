@@ -164,7 +164,7 @@ try:
                                     "Company name": "get the full company name if exists",
                                     "Email": "get the complete mail if exists",
                                     "Contact number": "get every contact numbers if exists"}]
-                                    your response shall not contain ' ```json ' and ' ``` ' """,
+                                    # your response shall not contain ' ```json ' and ' ``` ' """,
                             },
                             {"type": "image_url", "image_url": image_path}
                         ]
