@@ -148,7 +148,7 @@ try:
                 for image_file in selected_images:
                     image_path = os.path.join(IMAGE_FOLDER, image_file)
                     image = Image.open(image_path)
-                    vision = gem.GenerativeModel('gemini-1.5-pro-latest')
+                    vision = gem.GenerativeModel('gemini-1.5-flash-latest')
                     res = vision.generate_content(["""You are only a business card image recognizer,you will tell clean 'YES' if it is it else clean 'NO' """,image])
                     if res.text=='NO':
                         st.info(f"{os.path.basename(image_path)} is not a business card", icon = '❗')
