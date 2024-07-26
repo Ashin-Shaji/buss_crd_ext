@@ -155,19 +155,41 @@ try:
                         continue                
                         
                     message = HumanMessage(
-                        content=[
-                            {
-                                "type": "text",
-                                "text": """Carefully analyze the business card(s) and get the output in pure json format
+                        # content=[
+                        #     {
+                        #         "type": "text",
+                        #         "text": """Carefully analyze the business card(s) and get the output in pure json format
 
-                                [{"Person name": "full name of the person if exists",
-                                    "Company name": "get the full company name if exists",
-                                    "Email": "get the complete mail if exists",
-                                    "Contact number": "get every contact numbers if exists"}]
-                                    your response shall not contain ' ```json ' and ' ``` ' """,
-                            },
-                            {"type": "image_url", "image_url": image_path}
-                        ]
+                        #         [{"Person name": "full name of the person if exists",
+                        #             "Company name": "get the full company name if exists",
+                        #             "Email": "get the complete mail if exists",
+                        #             "Contact number": "get every contact numbers if exists"}]
+                        #             your response shall not contain ' ```json ' and ' ``` ' """,
+                        #     },
+                        #     {"type": "image_url", "image_url": image_path}
+                        # ]
+
+                        content=[
+                        {
+                            "type": "text",
+                            "text": """Carefully analyze the business card(s) and get the output in pure json format
+
+                            [{"Person name": "full name of the person if exists",
+                                "Company name": "get the full company name if exists",
+                                "Email": "get the complete mail if exists",
+                                "Contact number": "get every contact number if exists"}]
+                                
+                            if a card has multiple person name then the output be like:
+                            
+                            [{"Person name": "full name of the person if exists",
+                                "Person name 2": "full name of the person if exists",
+                                "Company name": "get the full company name if exists",
+                                "Email": "get the complete mail if exists",
+                                "Contact number": "get every contact number if exists"}]
+                                your response shall not contain ' ```json ' and ' ``` ' """,
+                        },
+                        {"type": "image_url", "image_url": image_url2}
+                    ]
                     )
 
                     try:
@@ -178,8 +200,21 @@ try:
                         columns = ["Person name", "Company name", "Email", "Contact number"]
 
                         rows = []
-                        for item in extracted_data:
-                            row = {col: item.get(col, "") for col in columns}
+                        # for item in extracted_data:
+                        #     row = {col: item.get(col, "") for col in columns}
+                        #     rows.append(row)
+                        # all_rows.extend(rows)
+
+                        columns = ["Person name", "Person name 2", "Company name", "Email", "Contact number"]
+                        for item in res:
+                            person_name = item.get("Person name", "")
+                            person_name_2 = item.get("Person name 2", "")
+                            row = {
+                                "Person name": f"{person_name}, {person_name_2}",
+                                "Company name": item.get("Company name", ""),
+                                "Email": item.get("Email", ""),
+                                "Contact number": item.get("Contact number", ""),
+                            }
                             rows.append(row)
                         all_rows.extend(rows)
 
