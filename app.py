@@ -206,7 +206,7 @@ try:
                         # all_rows.extend(rows)
 
                         columns = ["Person name", "Person name 2", "Company name", "Email", "Contact number"]
-                        for item in res:
+                        for item in extracted_data:
                             person_name = item.get("Person name", "")
                             person_name_2 = item.get("Person name 2", "")
                             row = {
