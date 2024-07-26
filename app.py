@@ -10,7 +10,7 @@ IMAGE_FOLDER = "uploaded_images"
 os.makedirs(IMAGE_FOLDER, exist_ok=True)
 
 # Initialize Google Generative AI
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest")
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest")
 
 # Streamlit UI
 st.markdown(f"<h2 style='color:blue; text-align: center;'>{'Business Card Extractor'}</h2>",unsafe_allow_html = True)
@@ -148,7 +148,7 @@ try:
                 for image_file in selected_images:
                     image_path = os.path.join(IMAGE_FOLDER, image_file)
                     image = Image.open(image_path)
-                    vision = gem.GenerativeModel('gemini-1.5-flash-latest')
+                    vision = gem.GenerativeModel('gemini-1.5-pro-latest')
                     res = vision.generate_content(["""You are only a business card image recognizer,you will tell clean 'YES' if it is it else clean 'NO' """,image])
                     if res.text=='NO':
                         st.info(f"{os.path.basename(image_path)} is not a business card", icon = '❗')
